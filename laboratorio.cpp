@@ -52,15 +52,14 @@ matriz normal_multi(matriz &A,int m,int n, matriz &B ,int o){
 
 matriz bloq_multi(matriz &A,int N, matriz &B){
 
-    	matriz rpta;
 	double BlockS=32;
-    
+    matriz rpta;
 	crear_matriz(rpta,N,N);
 	llenar_ceros(rpta,N,N);
 
-	for (int i1 = 0; i1 < N/BlockS ; i1 += BlockS)
-		for (int j1 = 0; j1 < N/BlockS ; j1 += BlockS)
-			for ( int k1 = 0; k1 <N/BlockS ; k1 += BlockS)
+	for (int i1 = 0; i1 < N ; i1 += BlockS)
+		for (int j1 = 0; j1 < N ; j1 += BlockS)
+			for ( int k1 = 0; k1 <N ; k1 += BlockS)
 				for (int i = i1; i<i1+BlockS&&i<N ;i++)
 					for	(int j=j1; j<j1+BlockS&&j<N ;j++)
 						for	(int k=k1; k<k1+BlockS&&k<N ;k++)
@@ -69,11 +68,11 @@ matriz bloq_multi(matriz &A,int N, matriz &B){
 	return rpta;
 }	
 
-void print(matriz &v, int a , int b){
+void print(matriz &M, int a , int b){
 	for(int i=0;i<a;i++){
 		for(int j=0;j<b;j++){
-			cout<<v[i][j]<<"\t";
-			fs << v[i][j]<<"\t";
+			cout<<M[i][j]<<"\t";
+			fs << M[i][j]<<"\t";
 		}
 		cout<<endl;
 	}
@@ -98,7 +97,7 @@ int main()
 	crear_matriz(M2,n,o);
 	cout<<"LLenar :"<< endl;
 	// load_matriz(M1,m,n);				//llena la matriz manualmente
-	load_rand(M2,5);					//llena la matriz al random
+	load_rand(M2,8);					//llena la matriz al random
 	// print(M2,n,o);	
 	
 	// cout << "----------- multiplicacion 3 For ---------------" << endl;
