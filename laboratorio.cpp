@@ -52,8 +52,9 @@ matriz normal_multi(matriz &A,int m,int n, matriz &B ,int o){
 
 matriz bloq_multi(matriz &A,int N, matriz &B){
 
+    	matriz rpta;
 	double BlockS=32;
-    matriz rpta;
+    
 	crear_matriz(rpta,N,N);
 	llenar_ceros(rpta,N,N);
 
