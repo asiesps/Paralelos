@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <unistd.h>     //sleep
 #include <math.h>
-const int MAX_THREADS = 1024;
+#include "timer.h"
 
 long limite;
 long long n;
@@ -42,6 +42,7 @@ double Serial_pi(long long n) {
 }
 int main(int argc, char * argv[]) {
     long i;
+    double inicio, fin ;
     pthread_t my_hilo;
 
     // printf("Argument: %d \n",argc);
@@ -58,7 +59,6 @@ int main(int argc, char * argv[]) {
         pthread_create(&my_hilo,NULL,Thread_sum,(void*)i);
         // sleep(1);
     }
-
     // join(Id hilo del thread a esperar, valor de terminación del hilo)
     for (i=0; i < limite ; i++) 
         pthread_join(my_hilo, NULL); 
@@ -67,9 +67,13 @@ int main(int argc, char * argv[]) {
     printf("Con n = %lld terminos,\n", n);
     printf("Valor estimado-thr pi = %.15f\n", sum);
 
+    GET_TIME(inicio);
     sum = Serial_pi(n);
+    GET_TIME(fin);
+
     printf("Valor estimado serial = %.15f\n", sum);
     printf("                   pi = %.15f\n", 4.0*atan(1.0));
+    printf("\n     Tiempo serial  = %e\n", fin-inicio);
     
-    
+    // free(*my_hilo);
 }
