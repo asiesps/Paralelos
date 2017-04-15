@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <unistd.h>     //sleep
 #include <math.h>
+#include "timer.h"
 
 long limite;
 long long n;
@@ -16,6 +17,7 @@ void* Thread_sum(void* rank) {
     long long my_n = n/limite;
     long long my_first_i = my_n*my_rank;
     long long my_last_i = my_first_i + my_n;
+    double all_sum = 0.0;
 
     if (my_first_i % 2 == 0)
         factor = 1.0;
@@ -23,10 +25,12 @@ void* Thread_sum(void* rank) {
         factor = -1.0;
 
     for (i = my_first_i; i < my_last_i; i++, factor = -factor) {
-        while (flag != my_rank);
-        sum += factor/(2*i+1);
-        flag = (flag+1) % limite;
+        all_sum += factor/(2*i+1);
+        
     }
+    while (flag != my_rank);
+    sum += all_sum;
+    flag = (flag+1) % limite;
 
    return NULL;
 }
@@ -44,6 +48,7 @@ double Serial_pi(long long n) {
 }
 int main(int argc, char * argv[]) {
     long i;
+    double inicio, fin ;
     pthread_t my_hilo;
 
     // printf("Argument: %d \n",argc);
@@ -56,6 +61,7 @@ int main(int argc, char * argv[]) {
     // my_hilo = (pthread_t*) malloc (limite*sizeof(pthread_t)); 
     sum = 0.0;
     flag = 0;
+    GET_TIME(inicio);
     // Create (ID threat,atributos del hilo, * d la func a ejecutar,* pasa un parametro)
     for(i=0; i < limite ; i++){
         pthread_create(&my_hilo,NULL,Thread_sum,(void*)i);
@@ -64,15 +70,22 @@ int main(int argc, char * argv[]) {
 
     // join(Id hilo del thread a esperar, valor de terminación del hilo)
     for (i=0; i < limite ; i++) 
-        pthread_join(my_hilo, NULL); 
+        pthread_join(my_hilo, NULL);
+    GET_TIME(fin);
 
     sum = 4.0*sum;
     printf("Con n = %lld terminos,\n", n);
-    printf("Valor estimado-thr pi = \t%.15f\n", sum);
+    printf("Valor estimado-thr pi = %.15f\n", sum);
+    printf("\n    Tiempo formula  = %e\n", fin-inicio);
 
+    // GET_TIME(inicio);
     sum = Serial_pi(n);
-    printf("Valor estimado serial = \t%.15f\n", sum);
-    printf("                   pi = \t%.15f\n", 4.0*atan(1.0));
+    // GET_TIME(fin);
+
+    printf("\nValor estimado serial = %.15f\n", sum);
+    printf("                   pi = %.15f\n", 4.0*atan(1.0));
+    // printf("\n     Tiempo serial  = %e\n", fin-inicio);
     
-    return 0;
+    // free(my_hilo);
 }
+
