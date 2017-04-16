@@ -17,7 +17,7 @@ int main() {
         for (int i=0; i<comm_sz; i++)
             globaldata[i] = 2*i+1;
 
-        printf("Procesador %d tiene datos : ", my_rank);
+        printf("Proceso %d tiene datos : ", my_rank);
         for (int i=0; i<comm_sz; i++)
             printf("%d ", globaldata[i]);
         printf("\n");
