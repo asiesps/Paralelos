@@ -104,8 +104,8 @@ int main() {
 	MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
     
-    local_n = m/comm_sz;
-    local_m = n/comm_sz;
+    local_m = m/comm_sz;
+    local_n = n/comm_sz;
     
     local_A = malloc(local_m*n*sizeof(double));
     local_x = malloc(local_n*sizeof(double));
