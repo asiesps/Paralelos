@@ -5,7 +5,6 @@
 #include <semaphore.h>
 
 const int MAX = 1000;
-
 int limite;
 sem_t* semaforo;
 
@@ -23,7 +22,7 @@ void *tokenizar(void* rank) {
     fg_rv = fgets(my_line, MAX, stdin);
     sem_post(&semaforo[next]);  
     while (fg_rv != NULL) {
-        printf("Thread %ld > my line = %s", my_rank, my_line);
+        printf("Thread %ld - texto = %s", my_rank, my_line);
 
         count = 0; 
         my_string = strtok_r(my_line, " \t\n", &saveptr);
@@ -43,11 +42,11 @@ void *tokenizar(void* rank) {
 
 int main(int argc, char* argv[]) {
     long        hilo;
-    pthread_t* thread_handles; 
+    pthread_t* threads; 
 
     limite = atoi(argv[1]);
 
-    thread_handles = (pthread_t*) malloc (limite*sizeof(pthread_t));
+    threads = (pthread_t*) malloc (limite*sizeof(pthread_t));
     semaforo = (sem_t*) malloc(limite*sizeof(sem_t));
     // semaforo[0] should be unlocked, the others should be locked
     sem_init(&semaforo[0], 0, 1);
@@ -56,17 +55,15 @@ int main(int argc, char* argv[]) {
 
     printf("Texto varias veces :\n");
     for (hilo = 0; hilo < limite; hilo++)
-        pthread_create(&thread_handles[hilo], (pthread_attr_t*) NULL,
-            tokenizar, (void*) hilo);
+        pthread_create(&threads[hilo],NULL, tokenizar, (void*) hilo);
 
-    for (hilo = 0; hilo < limite; hilo++) {
-        pthread_join(thread_handles[hilo], NULL);
-    }
+    for (hilo = 0; hilo < limite; hilo++)
+        pthread_join(threads[hilo], NULL);
 
     for (hilo=0; hilo < limite; hilo++)
         sem_destroy(&semaforo[hilo]);
 
     free(semaforo);
-    free(thread_handles);
+    free(threads);
     return 0;
 }
