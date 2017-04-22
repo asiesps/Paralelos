@@ -61,7 +61,7 @@ void *Pth_mat_vect(void* rank) {
             }
       }
       GET_TIME(fin);
-      printf("Thread %ld > tiempo transcurrido = %e seconds\n", my_rank, fin - inicio);
+      printf("Thread %ld > tiempo transcurrido = %e seg\n", my_rank, fin - inicio);
 
       return NULL;
       }
@@ -83,10 +83,10 @@ int main(int argc, char* argv[]) {
       y = malloc(m*sizeof(double));
       
       llenar_matriz(M, m, n);
-      // Print_matrix("We generated", A, m, n); 
+      // Print_matrix("Se genero", A, m, n); 
 
       llenar_vec(x, n);
-      // Print_vector("We generated", x, n); 
+      // Print_vector("Se genero", x, n); 
 
       for (thread = 0; thread < limite; thread++)
             pthread_create(&thread_handles[thread], NULL, Pth_mat_vect, (void*) thread);
@@ -94,8 +94,7 @@ int main(int argc, char* argv[]) {
       for (thread = 0; thread < limite; thread++)
             pthread_join(thread_handles[thread], NULL);
 
-      // Print_vector("The product is", y, m); 
-
+      // Print_vector("Resultado es ", y, m); 
 
       free(M);
       free(x);
