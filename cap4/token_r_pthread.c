@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 
     threads = (pthread_t*) malloc (limite*sizeof(pthread_t));
     semaforo = (sem_t*) malloc(limite*sizeof(sem_t));
-    // semaforo[0] should be unlocked, the others should be locked
+    
     sem_init(&semaforo[0], 0, 1);
     for (hilo = 1; hilo < limite; hilo++)
         sem_init(&semaforo[hilo], 0, 0);
