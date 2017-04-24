@@ -17,7 +17,7 @@ void *tokenizar(void* rank) {
     char *my_string;
     char *saveptr;
 
-    /* Force sequential reading of the input */
+    
     sem_wait(&semaforo[my_rank]);  
     fg_rv = fgets(my_line, MAX, stdin);
     sem_post(&semaforo[next]);  
