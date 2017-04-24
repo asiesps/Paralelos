@@ -45,14 +45,14 @@ void *Pth_mat_vect(void* rank) {
       long my_rank = (long) rank;
       int i,j;
       int local_m = m/limite; 
-      int my_first_row = my_rank*local_m;
-      int my_last_row = my_first_row + local_m;
-      register int sub = my_first_row*n;
+      int primer_fila = my_rank*local_m;
+      int ultima_fila = primer_fila + local_m;
+      register int sub = primer_fila*n;
       double inicio, fin ;
       double temp;
 
       GET_TIME(inicio);
-      for (i = my_first_row; i < my_last_row; i++) {
+      for (i = primer_fila; i < ultima_fila; i++) {
             y[i] = 0.0;
             for (j = 0; j < n; j++) {
                   temp = M[sub++];
