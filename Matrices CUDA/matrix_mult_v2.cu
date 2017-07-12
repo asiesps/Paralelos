@@ -53,7 +53,7 @@ void MatrixMulKernel_Gran(float* M, float* N, float* P,int Width)
   int ty = threadIdx.y;
 
   int Row = by * TILE_WIDTH + ty;
-  int Col = bx*2* TILE_WIDTH + tx;
+  int Col = (bx*2) * TILE_WIDTH + tx;
 
   float Pvalue = 0;
   float val_2 = 0;
